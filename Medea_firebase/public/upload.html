@@ -1,0 +1,165 @@
+<!-- <!DOCTYPE html> -->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Madea</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="index.css"> -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="./shaka_player/shaka-player/myapp.js"></script>
+    <script src="./shaka_player/shaka-player/dist/shaka-player.compiled.js"></script>
+    <link rel = "stylesheet" href = "index.css">
+    <link rel="stylesheet" href="upload.css">
+</head>
+
+<body>
+
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-company-red">
+
+        <a class="navbar-brand" href="index.html">
+            <img src="/Logo/favicon.png" alt="Logo">
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+            <div class="col-sm-4">
+
+                <form class="form-inline">
+                    <input class="form-control" type="search" placeholder="Search" aria-label="Search"
+                        style="width:100%">
+                </form>
+
+            </div>
+
+            <div class="col-sm-8">
+
+                <ul class="nav navbar-nav" style="float: right;">
+                    <li class="nav-item">
+                        <a href="signup.html"><i class="fa fa-user" aria-hidden="true"></i></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                            aria-expanded="false"><i class="fa fa-bars" aria-hidden="true"></i></a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="upload.html">Upload Video</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#"></a>
+                        </div>
+
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                            aria-expanded="false"><i class="fa fa-bell" aria-hidden="true"></i><span
+                                class="badge-notification mt-5" data-badge="0"></span></a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="#">No pending notifications</a>
+                            <a class="dropdown-item" href="#"></a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></a>
+                    </li>
+                </ul>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+    <div class="col-md-12" id = 'uploadelement'>
+        
+        <progress value="0" max="100" id="uploader">0%</progress>
+        <input type="file" value="upload" id="filebutton" />
+
+
+        <!-- The core Firebase JS SDK is always required and must be listed first -->
+        <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-app.js"></script>
+
+        <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+        <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-analytics.js"></script>
+
+        <script type="module">
+        //    import firebase from 'firebase';
+        //    import 'firebase/storage';
+           // Your web app's Firebase configuration
+            var firebaseConfig = {
+                apiKey: "AIzaSyAvSShkJqz3WwRxZotk3CYMeFmgoh0kqPg",
+                authDomain: "madea-dd305.firebaseapp.com",
+                databaseURL: "https://madea-dd305.firebaseio.com",
+                projectId: "madea-dd305",
+                storageBucket: "madea-dd305.appspot.com",
+                messagingSenderId: "9428354749",
+                appId: "1:9428354749:web:30b7915b739cc1087f19d4",
+                measurementId: "G-B1Z5E9YC97"
+            };
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+            // firebase.analytics();
+
+            var uploader = document.getElementById("uploader");
+            var filebutton = document.getElementById('filebutton');
+
+            filebutton.addEventListener('change',function(e){
+
+                // get the file
+                var file = e.target.files[0];
+
+                //create storage ref.
+                
+                var storageRef = firebase.storage().ref('videos/' + file.name);
+                //upload file 
+                var task= storageRef.put(file);
+
+                //progress bar
+
+                task.on('state_changed',
+                
+                    function progress(snapshot){
+
+                            var percentage = (snapshot.bytesTransferred/snapshot.totalBytes) * 100;
+                            uploader.value = percentage;
+
+                    },
+                    function error(err){
+
+                    },
+                
+                    function complete() {
+
+
+                    },
+                
+                    );
+            }) ;   
+
+        </script>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-storage.js"></script>
+
+
+
+</body>
+
+</html>
